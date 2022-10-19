@@ -1,0 +1,92 @@
+Source: sanlock
+Section: libs
+Priority: optional
+Maintainer: Håvard Flaget Aasen <haavard_aasen@yahoo.no>
+Build-Depends: debhelper-compat(=13),
+ dh-python <!nopython>,
+ libaio-dev,
+ libblkid-dev,
+ python3-dev <!nopython>,
+Standards-Version: 4.4.1
+Homepage: https://www.pagure.io/sanlock/
+Vcs-Browser: https://salsa.debian.org/haava/sanlock
+Vcs-Git: https://salsa.debian.org/haava/sanlock.git
+Rules-Requires-Root: no
+
+Package: sanlock
+Architecture: any
+Section: utils
+Depends: ${shlibs:Depends}, ${misc:Depends}, adduser
+Pre-Depends: ${misc:Pre-Depends}
+Suggests:
+ sanlk-reset,
+ python3-sanlock,
+Description: Shared storage lock manager
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains the binaries and private shared libraries.
+
+Package: sanlk-reset
+Architecture: any
+Section: utils
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         libsanlock1 (= ${binary:Version}),
+         sanlock (= ${binary:Version}),
+Description: Host reset daemon and client using sanlock
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains the reset daemon and client.
+ A cooperating host running the daemon can be reset by a host
+ running the client, so long as both maintain access to a
+ common sanlock lockspace.
+
+Package: libsanlock-client1
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Shared storage lock manager (client library)
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains the public shared library for libvirt.
+
+Package: libsanlock1
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Shared storage lock manager (shared library)
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains libsanlock shared library.
+
+Package: libsanlock-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: ${misc:Depends},
+         libsanlock-client1 (= ${binary:Version}),
+         libsanlock1 (= ${binary:Version}),
+Description: Shared storage lock manager (development files)
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains the header files and static libraries.
+
+Package: python3-sanlock
+Architecture: any
+Multi-Arch: same
+Build-Profiles: <!nopython>
+Section: python
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends},
+         libsanlock1 (= ${binary:Version})
+Provides: ${python3:Provides}
+Description: Python3 bindings to shared storage lock manager
+ Sanlock ensures that single disk cannot be used by more than
+ one running VM at a time, across any host in a network.
+ .
+ This package contains the Python3 bindings.

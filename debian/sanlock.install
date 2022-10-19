@@ -1,0 +1,4 @@
+usr/sbin/sanlock
+usr/sbin/wdmd
+usr/share/man/man8/sanlock*
+usr/share/man/man8/wdmd*

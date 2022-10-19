@@ -1,0 +1,45 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: sanlock
+Source: https://pagure.io/sanlock.git
+
+Files: *
+Copyright: 2010-2019 Red Hat, Inc.
+License: GPL-2+
+
+Files: debian/*
+Copyright: 2012 David Weber <wb@munzinger.de>
+License: GPL-2+
+
+Files: wdmd/*.h
+       wdmd/client.c
+       wdmd/wdmd_sock.c
+       src/sanlock_sock.c
+       src/mode_block.h
+       src/sanlock_resource.h
+       src/sanlock_admin.h
+       src/sanlock.h
+       src/sanlock_rv.h
+       src/client.c
+       src/paxos_dblock.h
+       src/sanlock_sock.h
+       src/ondisk.h
+       src/ondisk.c
+Copyright: 2010-2019 Red Hat, Inc.
+License: LGPL-2.1+
+
+License: LGPL-2.1+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public License
+ version 2.1 can be found in "/usr/share/common-licenses/LGPL-2.1".
+
+License: GPL-2+
+ This copyrighted material is made available to anyone wishing to use,
+ modify, copy, or redistribute it subject to the terms and conditions
+ of the GNU General Public License v2 or (at your option) any later version.
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".

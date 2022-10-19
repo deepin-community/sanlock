@@ -1,0 +1,3 @@
+sanlock-SCHED_RESET_ON_FORK-undefined.patch
+python-build.patch
+use-multiarch-libdir.patch

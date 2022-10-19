@@ -1,0 +1,51 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE = 1
+
+include /usr/share/dpkg/architecture.mk
+
+FLAGS = LIBDIR=/usr/lib/${DEB_HOST_MULTIARCH} LIBDIR_NAME=
+
+%:
+ifeq (,$(filter nopython,$(DEB_BUILD_PROFILES)))
+	dh $@ --with python3
+else
+	dh $@
+endif
+
+override_dh_auto_build:
+	dh_auto_build -D wdmd -- $(FLAGS)
+	dh_auto_build -D src -- $(FLAGS)
+	dh_auto_build -D reset
+ifeq (,$(filter nopython,$(DEB_BUILD_PROFILES)))
+	dh_auto_build -D python
+endif
+
+override_dh_auto_configure:
+	dh_auto_configure -D wdmd
+	dh_auto_configure -D src
+	dh_auto_configure -D reset
+ifeq (,$(filter nopython,$(DEB_BUILD_PROFILES)))
+	dh_auto_configure -D python
+endif
+
+override_dh_auto_install:
+	dh_auto_install -D wdmd -- $(FLAGS)
+	dh_auto_install -D src -- $(FLAGS)
+	dh_auto_install -D reset
+ifeq (,$(filter nopython,$(DEB_BUILD_PROFILES)))
+	dh_auto_install -D python
+endif
+
+override_dh_makeshlibs:
+	dh_makeshlibs -X/usr/lib/sanlock
+
+override_dh_installsystemd:
+	dh_installsystemd --name=wdmd --no-stop-on-upgrade --no-start
+	dh_installsystemd --name=sanlock --no-stop-on-upgrade
+	dh_installsystemd --name=sanlk-resetd --no-enable --no-start
+
+override_dh_installinit:
+	dh_installinit -psanlock --name=wdmd --no-stop-on-upgrade --no-start
+	install -D -m 0755 debian/sanlock.wdmd.init debian/sanlock/lib/systemd/systemd-wdmd
+	dh_installinit -psanlock --name=sanlock --no-stop-on-upgrade

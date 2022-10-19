@@ -1,0 +1,5 @@
+usr/lib/*/libsanlock_client.so
+usr/lib/*/libsanlock.so
+usr/lib/*/libwdmd.so
+usr/lib/*/pkgconfig
+usr/include/*

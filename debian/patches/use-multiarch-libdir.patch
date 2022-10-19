@@ -1,0 +1,53 @@
+Description: Use multiarch libdir
+ Change paths for libraries and pkg-config files to /usr/lib/<triplet>
+
+Author: Helmut Grohne <helmut@subdivi.de>
+Date: 2021-01-20
+
+Forwarded: not-needed
+Bug-Debian: https://bugs.debian.org/#980335
+---
+ src/Makefile                | 4 ++--
+ src/libsanlock.pc.in        | 4 ++--
+ src/libsanlock_client.pc.in | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -99,10 +99,10 @@
+ 	$(CC) $(CMD_CFLAGS) $(CMD_LDFLAGS) $(CMD_SOURCE) $(CMD_LDADD) -o $@ -L.
+ 
+ $(LIBPC_ENTIRE_TARGET): $(LIBPC_ENTIRE_SOURCE)
+-	sed -e "s/@VERSION@/$(VER)/" $(LIBPC_ENTIRE_SOURCE) > $(LIBPC_ENTIRE_TARGET)
++	sed -e "s/@VERSION@/$(VER)/" -e 's,@HEADIR@,$(HEADIR),' -e 's,@LIBDIR@,$(LIBDIR),' $(LIBPC_ENTIRE_SOURCE) > $(LIBPC_ENTIRE_TARGET)
+ 
+ $(LIBPC_CLIENT_TARGET): $(LIBPC_CLIENT_SOURCE)
+-	sed -e "s/@VERSION@/$(VER)/" $(LIBPC_CLIENT_SOURCE) > $(LIBPC_CLIENT_TARGET)
++	sed -e "s/@VERSION@/$(VER)/" -e 's,@HEADIR@,$(HEADIR),' -e 's,@LIBDIR@,$(LIBDIR),' $(LIBPC_CLIENT_SOURCE) > $(LIBPC_CLIENT_TARGET)
+ 
+ clean:
+ 	rm -f *.o *.so *.so.* $(CMD_TARGET) $(LIBSO_ENTIRE_TARGET) $(LIBSO_CLIENT_TARGET) $(LIBPC_ENTIRE_TARGET) $(LIBPC_CLIENT_TARGET)
+--- a/src/libsanlock.pc.in
++++ b/src/libsanlock.pc.in
+@@ -1,7 +1,7 @@
+ prefix=/usr
+ exec_prefix=${prefix}
+-includedir=${prefix}/include
+-libdir=${exec_prefix}/lib64
++includedir=@HEADIR@
++libdir=@LIBDIR@
+ 
+ Name: libsanlock
+ Description: The sanlock library
+--- a/src/libsanlock_client.pc.in
++++ b/src/libsanlock_client.pc.in
+@@ -1,7 +1,7 @@
+ prefix=/usr
+ exec_prefix=${prefix}
+-includedir=${prefix}/include
+-libdir=${exec_prefix}/lib64
++includedir=@HEADIR@
++libdir=@LIBDIR@
+ 
+ Name: libsanlock_client
+ Description: The sanlock client library

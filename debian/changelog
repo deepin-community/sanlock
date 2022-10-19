@@ -1,0 +1,158 @@
+sanlock (3.8.4-1) unstable; urgency=medium
+
+  * New upstream version 3.8.4
+  * upload to unstable
+  * d/README.Source: Remove file, information no longer applies.
+  * Move package into Vcs repository
+  * Add Build-Profile nopython
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Mon, 23 Aug 2021 22:05:31 +0200
+
+sanlock (3.8.3-1) experimental; urgency=medium
+
+  * New upstream version 3.8.3
+  * Drop patches applied upstream
+  * New package: sanlk-reset
+  * d/rules: Drop Python version flag
+  * d/control:
+    - Remove sanlock as dependency for libsanlock-dev
+    - Add packages to suggests field
+    - Add multiarch field
+    - Bump debhelper to 13
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Thu, 18 Feb 2021 17:33:32 +0100
+
+sanlock (3.8.2-2) unstable; urgency=medium
+
+  * d/control: Drop Built-Using field, for Python3 package.
+  * Move libraries and pkg-config to a multiarch location Closes: #980335
+    Thanks to Helmut Grohne for patch.
+  * Move Python example file to correct folder.
+  * Change section for the binary package sanlock, from libs to utils.
+  * Remove libblkid1 as build-dependency.
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Thu, 11 Feb 2021 17:09:13 +0100
+
+sanlock (3.8.2-1) unstable; urgency=medium
+
+  * New upstream release.
+  * New maintainer Closes: #903571
+  * New package: python3-sanlock
+  * d/*.symbols:
+    - Update symbols
+    - Add Build-Depends-Package: libsanlock-dev
+  * Switch to debhelper-compat
+    - d/control: Replace debhelper with debhelper-compat
+    - Remove d/compat
+  * d/control:
+    - Bump debhelper to 12
+    - Update Standards-Version to 4.4.1
+    - Drop dh-systemd as build dependency Closes: #958620
+    - Update homepage
+    - Add Rules-Requires-Root: no
+    - Add Pre-Depends: ${misc:Pre-Depends} for sanlock
+  * d/patches:
+    - Rebase patches
+    - Remove patches which is no longer needed.
+    - Add fix_man-page_macro.patch
+    - Add fix_typo.patch
+  * d/changelog: Remove whitespace
+  * d/copyright:
+    - Change to secure URI
+    - Update year
+    - Move debian/* to a separate file paragraph
+  * d/watch: Add file
+  * d/*.service: Add documentation-key
+  * Set upstream metadata fields: Bug-Database, Repository,
+    Repository-Browse.
+  * d/rules: Change to Debian specific init.d script LP: #1745986
+    This is the same file implemented in bug: #854696
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Thu, 01 Oct 2020 16:56:30 +0200
+
+sanlock (3.6.0-4) unstable; urgency=medium
+
+  * QA upload.
+  * Drop the Python subpackage.
+
+ -- Andrey Rahmatullin <wrar@debian.org>  Wed, 21 Aug 2019 22:46:10 +0500
+
+sanlock (3.6.0-3) unstable; urgency=medium
+
+  * Orphaned.
+
+ -- Milan Zamazal <pdm@debian.org>  Wed, 11 Jul 2018 14:44:29 +0200
+
+sanlock (3.6.0-2) unstable; urgency=medium
+
+  * Add sanlock user to disk group only after the user is created, thanks
+    to Christian Ehrhardt; closes: #888721.
+  * Create missing systemd-wdmd file, thanks to Christian Ehrhardt;
+    closes: #854696.
+
+ -- Milan Zamazal <pdm@debian.org>  Tue, 06 Feb 2018 21:34:07 +0100
+
+sanlock (3.6.0-1) unstable; urgency=medium
+
+  * New upstream version.
+  * Fix of typo in adduser --gecos postinst invocation, thanks to Ralf
+    Treinen; closes: #846249.
+  * Add `sanlock' user to `disk' group, thanks to Charlie Smurthwaite;
+    closes: #888102.
+
+ -- Milan Zamazal <pdm@debian.org>  Sat, 27 Jan 2018 22:23:50 +0100
+
+sanlock (3.3.0-2.2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Install pkgconfig files. (closes: #880118)
+
+ -- Bastian Blank <waldi@debian.org>  Tue, 31 Oct 2017 16:06:54 +0000
+
+sanlock (3.3.0-2.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Add libsanlock1 as a dependency of libsanlock-dev. (Closes: #858500)
+  * Move libsanlock.so and libwdmd.so out of /usr/lib/sanlock into
+    /usr/lib to fix broken symlinks.
+
+ -- Anton Gladky <gladk@debian.org>  Fri, 24 Mar 2017 13:11:12 +0100
+
+sanlock (3.3.0-2) unstable; urgency=low
+
+  * Typo in LGPL copyright section label fixed.
+
+ -- Milan Zamazal <mzamazal@redhat.com>  Fri, 25 Mar 2016 20:37:58 +0100
+
+sanlock (3.3.0-1) unstable; urgency=low
+
+  * New upstream version; closes: #695859.
+  * New maintainer: Milan Zamazal <mzamazal@redhat.com>
+  * New package: libsanlock1
+  * New package: python-sanlock
+  * Standards 3.9.7 (no real change).
+  * debian/copyright: Updated and converted to the machine-readable format.
+  * sanlock's home set to /nonexistent.
+  * systemd support added.
+
+ -- Milan Zamazal <mzamazal@redhat.com>  Mon, 21 Mar 2016 16:48:05 +0100
+
+sanlock (2.2-2) unstable; urgency=low
+
+  * Fix CVE-2012-5638 sanlock world writable /var/log/sanlock.log.
+    Thanks to Salvatore Bonaccorso (Closes: #696424)
+    Add patches cherry-picked from git repository:
+     - 0001-sanlock-remove-umask-0.patch
+     - 0001-sanlock-use-lockfile-mode-644.patch
+     - 0001-wdmd-use-lockfile-mode-644.patch
+  * Replace restrict field name (Closes: #689696)
+    Add patch cherry-picked from git repository:
+     - restrict.patch
+
+ -- David Weber <wb@munzinger.de>  Thu, 03 Jan 2013 22:12:33 +0100
+
+sanlock (2.2-1) unstable; urgency=low
+
+  * Initial release. (Closes: #669102)
+
+ -- David Weber <wb@munzinger.de>  Tue, 29 May 2012 13:38:45 +0200

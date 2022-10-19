@@ -1,0 +1,73 @@
+Prerequisites
+=============
+
+For Fedora/CentOS install the following packages:
+
+   $ sudo yum install -y gcc make libaio-devel libblkid-devel
+
+For Ubuntu/Debian install the following packages:
+
+   $ sudo apt install -y gcc make libaio-dev libblkid-dev
+
+
+How to test sanlock
+===================
+
+To run the python based tests, you need tox. The best way to install a
+recent version is to use pip:
+
+    $ pip install tox
+
+To run the tests with python 2.7 and 3.6:
+
+    $ tox
+
+Note: python 3.6 tests will fail now, since sanlock extension module needs
+changes to compile on python 3.
+
+To run only python 2.7:
+
+    $ tox -e py27
+
+To run only test from some modules:
+
+    $ tox tests/daemon_test.py
+
+To run only tests matching the substring "foo":
+
+    $ tox -- -k foo
+
+To run basic lint and style check:
+
+    $ tox -e flake8
+
+Sometimes when debugging failing tests verbose mode is useful. You can
+enable it using:
+
+    $ tox -e py36 tests/python_test.py -- -vv
+
+Or using environment variable:
+
+    export PYTEST_ADDOPTS=-vv
+
+
+Testing 4K support
+==================
+
+To enable the 4k tests, you need to setup 4k stroage for the tests:
+
+    $ python tests/storage.py setup
+
+This creates two loop devices with 4k sector size; one for testing sanlock with
+4k block device, and the other for testing with a filesystem backed by a 4k
+block device.
+
+To teardown the storage:
+
+    $ python tests/storage.py teardown
+
+The script unmounts the filesystem and detaches the loop devices.
+
+The storage helper script uses sudo to perform privileged operations. The best
+way to use it is to setup the environment once at the start of the session, and
+teardown when you finish.

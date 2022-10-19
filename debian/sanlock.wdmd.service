@@ -1,0 +1,14 @@
+[Unit]
+Description=Watchdog Multiplexing Daemon
+Documentation=man:wdmd(8)
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/default/wdmd
+ExecStartPre=/lib/systemd/systemd-wdmd watchdog-check
+ExecStart=/usr/sbin/wdmd $wdmd_opts
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+

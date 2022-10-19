@@ -1,0 +1,13 @@
+Change install location for Python files
+
+--- a/python/Makefile
++++ b/python/Makefile
+@@ -10,7 +10,7 @@
+ 	$(PYTHON) setup.py build $(BUILDARGS)
+ 
+ install:
+-	$(PYTHON) setup.py install --root=$(DESTDIR)
++	$(PYTHON) setup.py install --root=$(DESTDIR) --prefix=/usr
+ 
+ clean:
+ 	rm -rf build
