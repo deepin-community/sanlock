@@ -8,6 +8,7 @@ License: GPL-2+
 
 Files: debian/*
 Copyright: 2012 David Weber <wb@munzinger.de>
+           2020-2023 Håvard F. Aasen <havard.f.aasen@pfft.no>
 License: GPL-2+
 
 Files: wdmd/*.h

@@ -50,6 +50,7 @@ libsanlock.so.1 libsanlock1 #MINVER#
  helper_pid@Base 3.3.0
  helper_status_fd@Base 3.3.0
  host_info@Base 2.1
+ is_helper@Base 3.8.5
  kill_count_max@Base 3.3.0
  kill_grace_seconds@Base 3.3.0
  leader_align_flag_from_size@Base 3.8.2
@@ -90,6 +91,7 @@ libsanlock.so.1 libsanlock1 #MINVER#
  read_iobuf_reap@Base 2.1
  read_sectors@Base 2.1
  read_sysfs_size@Base 3.8.2
+ read_sysfs_uint@Base 3.8.5
  request_record_in@Base 3.3.0
  request_record_out@Base 3.3.0
  rindex_create@Base 3.8.2
@@ -190,7 +192,9 @@ libsanlock.so.1 libsanlock1 #MINVER#
  write_iobuf@Base 2.1
  write_sector@Base 2.1
  write_sectors@Base 2.1
+ write_sysfs_uint@Base 3.8.5
 libwdmd.so.1 libsanlock1 #MINVER#
+* Build-Depends-Package: libsanlock-dev
  wdmd_connect@Base 2.1
  wdmd_refcount_clear@Base 2.1
  wdmd_refcount_set@Base 2.1

@@ -199,7 +199,6 @@ static void cmd_acquire(struct task *task, struct cmd_args *ca, uint32_t cmd)
 	struct space_info spi;
 	char killpath[SANLK_HELPER_PATH_LEN];
 	char killargs[SANLK_HELPER_ARGS_LEN];
-	char *opt_str;
 	int token_len, disks_len;
 	int fd, rv, i, j, empty_slots, lvl;
 	int alloc_count = 0, acquire_count = 0;
@@ -361,6 +360,8 @@ static void cmd_acquire(struct task *task, struct cmd_args *ca, uint32_t cmd)
 
 	strncpy(cl->owner_name, opt.owner_name, SANLK_NAME_LEN);
 
+	/* data after opt is not used */
+	/*
 	if (opt.len) {
 		opt_str = malloc(opt.len);
 		if (!opt_str) {
@@ -379,6 +380,7 @@ static void cmd_acquire(struct task *task, struct cmd_args *ca, uint32_t cmd)
 			goto done;
 		}
 	}
+	*/
 
 	/* TODO: warn if header.length != sizeof(header) + pos ? */
 	recv_done = 1;
@@ -2395,6 +2397,7 @@ static int print_state_lockspace(struct space *sp, char *str, const char *list_n
 		 "external_used=%d "
 		 "used_by_orphans=%d "
 		 "renewal_read_extend_sec=%u "
+		 "set_max_sectors_kb=%u "
 		 "corrupt_result=%d "
 		 "acquire_last_result=%d "
 		 "renewal_last_result=%d "
@@ -2415,6 +2418,7 @@ static int print_state_lockspace(struct space *sp, char *str, const char *list_n
 		 (sp->flags & SP_EXTERNAL_USED) ? 1 : 0,
 		 (sp->flags & SP_USED_BY_ORPHANS) ? 1 : 0,
 		 sp->renewal_read_extend_sec,
+		 sp->set_max_sectors_kb,
 		 sp->lease_status.corrupt_result,
 		 sp->lease_status.acquire_last_result,
 		 sp->lease_status.renewal_last_result,

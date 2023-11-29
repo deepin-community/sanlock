@@ -27,14 +27,36 @@ SCRIPTNAME=/etc/init.d/$NAME
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-[ "$enabled" = "1" ] || exit 0
-
 # Load the VERBOSE setting and other rcS variables
 . /lib/init/vars.sh
 
 # Define LSB log_* functions.
 # Depend on lsb-base (>= 3.0-6) to ensure that this file is present.
 . /lib/lsb/init-functions
+
+watchdog_probe() {
+	$DAEMON --probe > /dev/null 2>&1
+	RETVAL=$?
+	return $RETVAL
+}
+
+watchdog_check() {
+	watchdog_probe
+	RETVAL=$?
+
+	if [ $RETVAL -ne 0 ]; then
+		printf "Loading the softdog kernel module: "
+		modprobe softdog && udevadm settle
+
+		watchdog_probe
+		RETVAL=$?
+		if [ $RETVAL -ne 0 ]; then
+			printf "failure\n"
+			return 1
+		fi
+		printf "success\n"
+	fi
+}
 
 #
 # Function that starts the daemon/service
@@ -100,6 +122,9 @@ case "$1" in
 	;;
   status)
        status_of_proc "$DAEMON" "$NAME" && exit 0 || exit $?
+       ;;
+  watchdog-check)
+       watchdog_check
        ;;
   restart|force-reload)
 	#
