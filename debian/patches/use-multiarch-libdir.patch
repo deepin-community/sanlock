@@ -1,8 +1,8 @@
-Description: Use multiarch libdir
- Change paths for libraries and pkg-config files to /usr/lib/<triplet>
+From: Helmut Grohne <helmut@subdivi.de>
+Date: Mon, 24 Oct 2022 12:29:17 +0200
+Subject: Use multiarch libdir
 
-Author: Helmut Grohne <helmut@subdivi.de>
-Date: 2021-01-20
+Change paths for libraries and pkg-config files to /usr/lib/<triplet>
 
 Forwarded: not-needed
 Bug-Debian: https://bugs.debian.org/#980335
@@ -12,9 +12,11 @@ Bug-Debian: https://bugs.debian.org/#980335
  src/libsanlock_client.pc.in | 4 ++--
  3 files changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/src/Makefile b/src/Makefile
+index 533dd79..c7b8464 100644
 --- a/src/Makefile
 +++ b/src/Makefile
-@@ -99,10 +99,10 @@
+@@ -99,10 +99,10 @@ $(CMD_TARGET): $(LIBSO_ENTIRE_TARGET) $(CMD_SOURCE)
  	$(CC) $(CMD_CFLAGS) $(CMD_LDFLAGS) $(CMD_SOURCE) $(CMD_LDADD) -o $@ -L.
  
  $(LIBPC_ENTIRE_TARGET): $(LIBPC_ENTIRE_SOURCE)
@@ -27,6 +29,8 @@ Bug-Debian: https://bugs.debian.org/#980335
  
  clean:
  	rm -f *.o *.so *.so.* $(CMD_TARGET) $(LIBSO_ENTIRE_TARGET) $(LIBSO_CLIENT_TARGET) $(LIBPC_ENTIRE_TARGET) $(LIBPC_CLIENT_TARGET)
+diff --git a/src/libsanlock.pc.in b/src/libsanlock.pc.in
+index 4cbe0b5..32a600e 100644
 --- a/src/libsanlock.pc.in
 +++ b/src/libsanlock.pc.in
 @@ -1,7 +1,7 @@
@@ -39,6 +43,8 @@ Bug-Debian: https://bugs.debian.org/#980335
  
  Name: libsanlock
  Description: The sanlock library
+diff --git a/src/libsanlock_client.pc.in b/src/libsanlock_client.pc.in
+index dcb877b..305f638 100644
 --- a/src/libsanlock_client.pc.in
 +++ b/src/libsanlock_client.pc.in
 @@ -1,7 +1,7 @@

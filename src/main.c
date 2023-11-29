@@ -946,9 +946,6 @@ static void *thread_pool_worker(void *data)
 
 	while (1) {
 		while (!pool.quit && list_empty(&pool.work_data)) {
-			if (pool.free_workers >= DEFAULT_MIN_WORKER_THREADS)
-				goto out;
-
 			pool.free_workers++;
 			pthread_cond_wait(&pool.cond, &pool.mutex);
 			pool.free_workers--;
@@ -969,7 +966,6 @@ static void *thread_pool_worker(void *data)
 			break;
 	}
 
-out:
 	pool.num_workers--;
 	if (!pool.num_workers)
 		pthread_cond_signal(&pool.quit_wait);
@@ -995,10 +991,11 @@ static int thread_pool_add_work(struct cmd_args *ca)
 	if (!pool.free_workers && pool.num_workers < pool.max_workers) {
 		rv = pthread_create(&th, NULL, thread_pool_worker,
 				    (void *)(long)pool.num_workers);
-		if (rv < 0) {
+		if (rv) {
 			log_error("thread_pool_add_work ci %d error %d", ca->ci_in, rv);
 			list_del(&ca->list);
 			pthread_mutex_unlock(&pool.mutex);
+			rv = -1;
 			return rv;
 		}
 		pool.num_workers++;
@@ -1023,7 +1020,7 @@ static void thread_pool_free(void)
 static int thread_pool_create(int min_workers, int max_workers)
 {
 	pthread_t th;
-	int i, rv;
+	int i, rv = 0;
 
 	memset(&pool, 0, sizeof(pool));
 	INIT_LIST_HEAD(&pool.work_data);
@@ -1035,8 +1032,11 @@ static int thread_pool_create(int min_workers, int max_workers)
 	for (i = 0; i < min_workers; i++) {
 		rv = pthread_create(&th, NULL, thread_pool_worker,
 				    (void *)(long)i);
-		if (rv < 0)
+		if (rv) {
+			log_error("thread_pool_create failed %d", rv);
+			rv = -1;
 			break;
+		}
 		pool.num_workers++;
 	}
 
@@ -1649,6 +1649,7 @@ static int setup_helper(void)
 	} else {
 		close(pr_fd);
 		close(pw_fd);
+		is_helper = 1;
 		run_helper(cr_fd, cw_fd, (log_stderr_priority == LOG_DEBUG));
 		exit(0);
 	}

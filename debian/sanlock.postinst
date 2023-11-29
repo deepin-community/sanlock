@@ -20,13 +20,13 @@ set -e
 
 
 add_statoverrides()
-{	
+{
 	# Fix permission from old sanlock versions, see #696424
 	if [ -f /run/sanlock/sanlock.pid ] && [ `stat -c %a /run/sanlock/sanlock.pid` -ne "644" ]
 	then
 		chmod -f 644 /run/sanlock/sanlock.pid
 	fi
-	
+
 	if [ -f /var/log/sanlock.log ] && [ `stat -c %a /var/log/sanlock.log` -ne "644" ]
 	then
 		 chmod -f 644 /var/log/sanlock.log
@@ -36,7 +36,7 @@ add_statoverrides()
 
 case "$1" in
 	configure)
-	add_statoverrides	
+	add_statoverrides
 	if ! getent group sanlock >/dev/null; then
 		addgroup --quiet --system sanlock
 	fi
@@ -53,7 +53,7 @@ case "$1" in
 		sanlock
 	fi
 	if ! { getent group disk | grep --quiet '\<sanlock\>'; }; then
-		addgroup --quiet sanlock disk
+		adduser --quiet sanlock disk
 	fi
 	;;
 

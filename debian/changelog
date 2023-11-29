@@ -1,3 +1,44 @@
+sanlock (3.8.5-2) unstable; urgency=medium
+
+  * Add 'watchdog-check' function to 'wdmd' init script. Closes: #1041467
+    This also loads the kernel module 'softdog' if no other watchdog module
+    has been loaded. LP: #1229525
+  * Remove 'enabled=' option from init.d, and default scripts.
+  * Start wdmd daemon by default on install.
+  * By default, make sanlock use services provided by wdmd.
+  * Dependencies:
+    - Specify current version of library for sanlock.
+    - Change dh-python -> dh-sequence-python3, simplifies d/rules.
+    - Update python3-dev to 'native'.
+  * Update patch to 'gbp pq' style.
+  * Update Standards-Version to 4.6.2, no changes needed.
+  * Update copyright year for myself.
+  * Run wrap-and-sort -ast
+
+ -- Håvard F. Aasen <havard.f.aasen@pfft.no>  Fri, 21 Jul 2023 09:04:28 +0200
+
+sanlock (3.8.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Drop python-build.patch, not needed when using pybuild.
+  * Update wildcard for increased flexibility when installing files in
+    Python package.
+  * Update maintainer name and email.
+  * d/libsanlock1.symbols
+    - Update symbols.
+    - Add Build-Depends field for library 'libwdmd'.
+  * d/control:
+    - Add python3-setuptools as BD.
+    - Update BD to handle cross build.
+    - Update Standards-Version to 4.6.1
+  * d/rules:
+    - Explicitly build Python package with pybuild.
+    - Include hardening build flags
+  * d/copyright: Add myself under Debian paragraph.
+  * Update d/sanlock.postinst to reflect changes in adduser package.
+
+ -- Håvard F. Aasen <havard.f.aasen@pfft.no>  Sat, 29 Oct 2022 23:31:04 +0200
+
 sanlock (3.8.4-1) unstable; urgency=medium
 
   * New upstream version 3.8.4
