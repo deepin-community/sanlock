@@ -1,3 +1,9 @@
+sanlock (3.8.5-2deepin1) unstable; urgency=medium
+
+  * No source change upload against python 3.12.
+
+ -- Tianyu Chen <sweetyfish@deepin.org>  Mon, 08 Jul 2024 09:57:34 +0200
+
 sanlock (3.8.5-2) unstable; urgency=medium
 
   * Add 'watchdog-check' function to 'wdmd' init script. Closes: #1041467
